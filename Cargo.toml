@@ -1,0 +1,5 @@
+[workspace]
+members = [
+  "./crates/kogan",
+  "./crates/kogan-cli"
+]
