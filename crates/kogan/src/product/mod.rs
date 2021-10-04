@@ -1,10 +1,10 @@
 mod types;
+pub use self::types::*;
 
 use crate::client::{KoganClient, KoganRequestBuilderExt, Method};
 use crate::error::Result;
 use serde::Deserialize;
 use std::collections::HashMap;
-use types::Product;
 
 impl KoganClient {
     pub async fn create_products(&self, products: &[Product]) -> Result<CreateProductsResponse> {

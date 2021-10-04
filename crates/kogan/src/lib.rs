@@ -6,6 +6,8 @@ pub mod client;
 pub mod error;
 pub mod product;
 pub mod category;
+pub mod task;
+pub mod order;
 
 #[derive(Debug)]
 pub enum KoganEnv {

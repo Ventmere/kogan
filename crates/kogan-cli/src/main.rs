@@ -13,6 +13,17 @@ struct Opts {
 #[derive(Clap)]
 enum SubCommand {
     GetCategoryList,
+    GetOrders,
+    GetOrder {
+        id: String,
+    },
+    PostOrderDispatchInfo {
+        id: String,
+        item_id: String,
+        seller_sku: String,
+        tracking_number: String,
+        shipping_carrier: kogan::order::OrderShippingCarrier,
+    }
 }
 
 #[tokio::main]
@@ -33,6 +44,39 @@ async fn main() -> anyhow::Result<()> {
     match opts.subcmd {
         SubCommand::GetCategoryList => {
             let res = client.get_category_list(None).await?;
+            dbg!(res);
+        }
+        SubCommand::GetOrders => {
+            let res = client.get_orders(Default::default()).await?;
+            dbg!(res);
+        }
+        SubCommand::GetOrder { id } => {
+            let res = client.get_order(&id).await?;
+            dbg!(res);
+        }
+        SubCommand::PostOrderDispatchInfo {
+            id,
+            item_id,
+            seller_sku,
+            tracking_number,
+            shipping_carrier
+        } => {
+            use kogan::order::*;
+            let res = client.post_order_dispatch_info(
+                vec![PostOrderDispatchInfoParams {
+                    id,
+                    items: vec![
+                        OrderDispatchInfoItem {
+                            order_item_id: item_id,
+                            seller_sku,
+                            quantity: 1,
+                            shipped_date_utc: chrono::Utc::now(),
+                            tracking_number,
+                            shipping_carrier,
+                        }
+                    ],
+                }]
+            ).await?;
             dbg!(res);
         }
     }

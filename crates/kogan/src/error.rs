@@ -10,6 +10,8 @@ pub enum KoganError {
     Reqwest(#[from] reqwest::Error),
     #[error("request error: {0:?}, body = {1:?}")]
     RequestError(reqwest::StatusCode, String),
+    #[error("invalid carrier code: {0}")]
+    InvalidCarriorCode(String),
 
     #[error("json: {0}")]
     Json(#[from] serde_json::Error),
