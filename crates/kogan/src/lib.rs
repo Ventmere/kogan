@@ -1,6 +1,6 @@
 use std::str::FromStr;
-
 use error::KoganError;
+use serde::{Deserialize, Serialize};
 
 pub mod client;
 pub mod error;
@@ -9,7 +9,7 @@ pub mod category;
 pub mod task;
 pub mod order;
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub enum KoganEnv {
     Test,
     Live,
