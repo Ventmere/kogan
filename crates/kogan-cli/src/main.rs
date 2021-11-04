@@ -1,8 +1,7 @@
-use clap::{AppSettings, Clap};
+use clap::{Parser};
 use kogan::client::KoganClient;
 
-#[derive(Clap)]
-#[clap(setting = AppSettings::ColoredHelp)]
+#[derive(Parser)]
 struct Opts {
     #[clap(short, long)]
     env_file: Option<String>,
@@ -10,7 +9,7 @@ struct Opts {
     subcmd: SubCommand,
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 enum SubCommand {
     GetCategoryList,
     GetOrders,
@@ -23,7 +22,7 @@ enum SubCommand {
         seller_sku: String,
         tracking_number: String,
         shipping_carrier: kogan::order::OrderShippingCarrier,
-    }
+    },
 }
 
 #[tokio::main]
@@ -59,24 +58,22 @@ async fn main() -> anyhow::Result<()> {
             item_id,
             seller_sku,
             tracking_number,
-            shipping_carrier
+            shipping_carrier,
         } => {
             use kogan::order::*;
-            let res = client.post_order_dispatch_info(
-                vec![PostOrderDispatchInfoParams {
+            let res = client
+                .post_order_dispatch_info(vec![PostOrderDispatchInfoParams {
                     id,
-                    items: vec![
-                        OrderDispatchInfoItem {
-                            order_item_id: item_id,
-                            seller_sku,
-                            quantity: 1,
-                            shipped_date_utc: chrono::Utc::now(),
-                            tracking_number,
-                            shipping_carrier,
-                        }
-                    ],
-                }]
-            ).await?;
+                    items: vec![OrderDispatchInfoItem {
+                        order_item_id: item_id,
+                        seller_sku,
+                        quantity: 1,
+                        shipped_date_utc: chrono::Utc::now(),
+                        tracking_number,
+                        shipping_carrier,
+                    }],
+                }])
+                .await?;
             dbg!(res);
         }
     }
