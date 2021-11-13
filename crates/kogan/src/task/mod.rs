@@ -1,6 +1,6 @@
 use crate::client::{KoganClient, KoganRequestBuilderExt, Method};
 use crate::error::Result;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 impl KoganClient {
@@ -9,7 +9,7 @@ impl KoganClient {
     }
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GetTaskResultsResponse {
     pub status: GetTaskResultsStatus,
     pub pending_url: Option<String>,
@@ -17,7 +17,7 @@ pub struct GetTaskResultsResponse {
     pub error: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub enum GetTaskResultsStatus {
     AsyncResponsePending,

@@ -78,7 +78,7 @@ impl Default for GetOrdersParams {
     }
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GetOrdersResponse {
     pub status: OrderResponseStatus,
     pub pending_url: Option<String>,
@@ -86,7 +86,7 @@ pub struct GetOrdersResponse {
     pub error: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub enum OrderResponseStatus {
     Complete,
@@ -94,7 +94,7 @@ pub enum OrderResponseStatus {
     Failed,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GetOrderResponse {
     pub status: OrderResponseStatus,
     pub pending_url: Option<String>,
@@ -225,7 +225,7 @@ impl FromStr for OrderShippingCarrier {
     }
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct PostOrderDispatchInfoResponse {
     pub status: OrderResponseStatus,
     pub pending_url: Option<String>,
@@ -233,7 +233,7 @@ pub struct PostOrderDispatchInfoResponse {
     pub error: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct OrderItemFulfillmentResult {
     #[serde(rename = "ID")]
     pub id: String,
@@ -243,7 +243,7 @@ pub struct OrderItemFulfillmentResult {
     pub errors: Vec<OrderItemFulfillmentError>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct OrderItemFulfillmentError {
     #[serde(rename = "ID")]
     pub id: String,
@@ -288,7 +288,7 @@ pub enum OrderCancellationReason {
     ShippingAddressUndeliverable,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct PostOrderCancellationResponse {
     pub status: OrderResponseStatus,
     pub pending_url: Option<String>,
@@ -331,7 +331,7 @@ pub enum OrderRefundReason {
     ShippingAddressUndeliverable,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct PostOrderRefundResponse {
     pub status: OrderResponseStatus,
     pub pending_url: Option<String>,

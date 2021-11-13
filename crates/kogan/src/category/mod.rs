@@ -1,6 +1,6 @@
 use crate::client::{KoganClient, KoganRequestBuilderExt, Method};
 use crate::error::Result;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 impl KoganClient {
     pub async fn get_category_list(&self, next: Option<String>) -> Result<GetCategoryListResponse> {
@@ -8,7 +8,7 @@ impl KoganClient {
     }
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GetCategoryListResponse {
     pub status: GetCategoryListStatus,
     pub pending_url: Option<String>,
@@ -16,7 +16,7 @@ pub struct GetCategoryListResponse {
     pub error: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GetCategoryListResponseBody {
     pub count: i64,
     pub next: Option<String>,
@@ -24,7 +24,7 @@ pub struct GetCategoryListResponseBody {
     pub results: Vec<Category>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Category {
     pub id: i64,
     pub title: String,
@@ -35,7 +35,7 @@ pub struct Category {
     pub parent_company: Option<i64>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub enum GetCategoryListStatus {
     Complete,
