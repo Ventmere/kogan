@@ -23,6 +23,7 @@ enum SubCommand {
         tracking_number: String,
         shipping_carrier: kogan::order::OrderShippingCarrier,
     },
+    GetProducts,
 }
 
 #[tokio::main]
@@ -73,6 +74,12 @@ async fn main() -> anyhow::Result<()> {
                         shipping_carrier,
                     }],
                 }])
+                .await?;
+            dbg!(res);
+        },
+        SubCommand::GetProducts => {
+            let res = client
+                .get_products(None)
                 .await?;
             dbg!(res);
         }
