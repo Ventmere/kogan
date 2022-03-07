@@ -14,6 +14,53 @@ impl KoganClient {
             .send_json()
             .await
     }
+
+    pub async fn get_products(&self, filter: Option<GetProductsFilters>) -> Result<GetProductsResponse> {
+        if let Some(filter) = filter {
+            self
+                .request(Method::GET, "/products")
+                .json(&filter)
+                .send_json()
+                .await
+        } else {
+            self
+                .request(Method::GET, "/products")
+                .send_json()
+                .await
+        }
+    }
+
+    pub async fn get_products_next(&self, next: String) -> Result<GetProductsResponse> {
+        self
+        .request(Method::GET, &next)
+        .send_json()
+        .await
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct GetProductsFilters {
+    pub search: Option<String>,
+    pub sku: Option<String>,
+    pub enabled: Option<bool>,
+    pub category: Option<String>,
+    pub brand: Option<String>,
+    pub created_after: Option<String>,
+    pub created_before: Option<String>,
+    pub detail: Option<bool>,
+}
+
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GetProductsResponse {
+    pub body: GetProductsBody,
+    pub error: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GetProductsBody {
+    pub next: Option<String>,
+    pub results: Vec<Product>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

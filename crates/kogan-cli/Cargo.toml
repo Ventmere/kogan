@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies]
 dotenv = "0.15.0"
-clap = "3.0.0-beta.5"
+clap = { version = "3.0.9", features = ["derive"] }
 kogan = { path = "../kogan" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 anyhow = "1.0"
