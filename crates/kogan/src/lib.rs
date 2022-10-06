@@ -9,6 +9,8 @@ pub mod category;
 pub mod task;
 pub mod order;
 
+mod utils;
+
 #[derive(Debug, Deserialize, Serialize)]
 pub enum KoganEnv {
     Test,

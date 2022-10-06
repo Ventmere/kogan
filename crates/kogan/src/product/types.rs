@@ -1,6 +1,6 @@
-use std::collections::HashMap;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use std::{collections::HashMap};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Product {
@@ -14,9 +14,11 @@ pub struct Product {
     pub offer_data: HashMap<String, OfferData>,
     pub stock: i64,
     pub enabled: bool,
+    #[serde(deserialize_with = "crate::utils::deserialize_date")]
     pub created: DateTime<Utc>,
     pub store_urls: Vec<StoreUrl>,
 }
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OfferData {
     pub price: String,
