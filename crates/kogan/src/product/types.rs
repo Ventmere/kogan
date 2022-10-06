@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -13,7 +14,7 @@ pub struct Product {
     pub offer_data: HashMap<String, OfferData>,
     pub stock: i64,
     pub enabled: bool,
-    pub created: String,
+    pub created: DateTime<Utc>,
     pub store_urls: Vec<StoreUrl>,
 }
 #[derive(Debug, Serialize, Deserialize)]
