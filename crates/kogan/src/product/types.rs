@@ -3,18 +3,18 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Product {
-    product_title: String,
-    product_sku: String,
-    product_subtitle: String,
-    product_gtin: String,
-    images: Vec<String>,
-    brand: String,
-    category: String,
-    offer_data: HashMap<String, OfferData>,
-    stock: i64,
-    enabled: bool,
-    created: String,
-    store_urls: Vec<StoreUrl>,
+    pub product_title: String,
+    pub product_sku: String,
+    pub product_subtitle: String,
+    pub product_gtin: String,
+    pub images: Vec<String>,
+    pub brand: String,
+    pub category: String,
+    pub offer_data: HashMap<String, OfferData>,
+    pub stock: i64,
+    pub enabled: bool,
+    pub created: String,
+    pub store_urls: Vec<StoreUrl>,
 }
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OfferData {
