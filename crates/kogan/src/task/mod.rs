@@ -7,6 +7,10 @@ impl KoganClient {
     pub async fn get_task_results(&self, task_id: &str) -> Result<GetTaskResultsResponse> {
         self.request(Method::GET, &format!("/task/{}/", task_id)).send_json().await
     }
+
+    pub async fn get_task_results_url(&self, url: &str) -> Result<GetTaskResultsResponse> {
+        self.request(Method::GET, url).send_json().await
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
