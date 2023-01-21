@@ -3,6 +3,7 @@ pub use self::types::*;
 
 use crate::client::{KoganClient, KoganRequestBuilderExt, Method};
 use crate::error::Result;
+use crate::task::GetTaskResultsResponse;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -19,7 +20,7 @@ impl KoganClient {
         if let Some(filter) = filter {
             self
                 .request(Method::GET, "/products")
-                .json(&filter)
+                .query(&filter)
                 .send_json()
                 .await
         } else {
@@ -35,6 +36,14 @@ impl KoganClient {
         .request(Method::GET, &next)
         .send_json()
         .await
+    }
+
+    pub async fn update_product(&self, product: serde_json::Value) -> Result<GetTaskResultsResponse> {
+        self
+            .request(Method::PATCH, "/products/")
+            .json(&product)
+            .send_json()
+            .await
     }
 }
 

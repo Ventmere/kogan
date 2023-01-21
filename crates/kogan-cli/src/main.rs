@@ -1,5 +1,6 @@
 use clap::{Parser};
-use kogan::client::KoganClient;
+use kogan::{client::KoganClient, product::GetProductsFilters};
+use serde_json::Value;
 
 #[derive(Parser)]
 struct Opts {
@@ -24,6 +25,16 @@ enum SubCommand {
         shipping_carrier: kogan::order::OrderShippingCarrier,
     },
     GetProducts,
+    GetProduct {
+        sku: String,
+    },
+    UpdateProduct {
+        sku: String,
+        fields_json: String,
+    },
+    GetTaskResults {
+        id: String,
+    }
 }
 
 #[tokio::main]
@@ -82,7 +93,32 @@ async fn main() -> anyhow::Result<()> {
                 .get_products(None)
                 .await?;
             dbg!(res);
-        }
+        },
+        SubCommand::GetProduct { sku } => {
+            let res = client
+                .get_products(Some(GetProductsFilters {
+                    sku: Some(sku),
+                    ..Default::default()
+                }))
+                .await?;
+            dbg!(res);
+        },
+        SubCommand::UpdateProduct { sku, fields_json } => {
+            let mut value: Value = serde_json::from_str(&fields_json)?;
+
+            value.as_object_mut().expect("json must be an object").insert("product_sku".to_string(), serde_json::Value::String(sku));
+
+            let res = client
+                .update_product(serde_json::json!([value]))
+                .await?;
+            dbg!(res);
+        },
+        SubCommand::GetTaskResults { id } => {
+            let res = client
+                .get_task_results(&id)
+                .await?;
+            dbg!(res);
+        },
     }
 
     Ok(())
